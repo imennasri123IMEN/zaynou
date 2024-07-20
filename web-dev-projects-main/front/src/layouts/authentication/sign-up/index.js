@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -40,6 +40,16 @@ function SignUp() {
   const [agreement, setAgremment] = useState(true);
 
   const handleSetAgremment = () => setAgremment(!agreement);
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleNavigation = () => {
+    const user = {email, password };
+    localStorage.setItem("user", JSON.stringify(user));
+    navigate("/authentication/sign-in");
+  };
 
   return (
     <BasicLayout
@@ -60,13 +70,13 @@ function SignUp() {
         <SoftBox pt={2} pb={3} px={3}>
           <SoftBox component="form" role="form">
             <SoftBox mb={2}>
-              <SoftInput placeholder="Name" />
+              <SoftInput placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput type="email" placeholder="Email" />
+              <SoftInput type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput type="password" placeholder="Password" />
+              <SoftInput type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </SoftBox>
             <SoftBox display="flex" alignItems="center">
               <Checkbox checked={agreement} onChange={handleSetAgremment} />
@@ -89,7 +99,7 @@ function SignUp() {
               </SoftTypography>
             </SoftBox>
             <SoftBox mt={4} mb={1}>
-              <SoftButton variant="gradient" color="dark" fullWidth>
+              <SoftButton variant="gradient" color="dark" fullWidth onClick={handleNavigation}>
                 sign up
               </SoftButton>
             </SoftBox>
